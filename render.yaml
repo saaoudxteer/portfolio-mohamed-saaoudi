@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: portfolio-mohamed-saaoudi
+    env: python
+    plan: free
+    buildCommand: ./build.sh
+    startCommand: gunicorn portfolio_django.wsgi --log-file -
+    envVars:
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: DJANGO_ALLOWED_HOSTS
+        value: "portfolio-mohamed-saaoudi.onrender.com"
+      - key: DJANGO_CSRF_TRUSTED_ORIGINS
+        value: "https://portfolio-mohamed-saaoudi.onrender.com"
+      - key: DJANGO_SECRET_KEY
+        generateValue: true

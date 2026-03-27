@@ -1,0 +1,353 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ profile.name }} · Portfolio</title>
+    <meta name="description" content="Portfolio of {{ profile.name }} — Data Science & Engineering, Applied AI, Software Systems." />
+
+    <!-- Fonts: Playfair Display (editorial serif) + DM Sans (body) + JetBrains Mono (labels) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="{% static 'showcase/css/style.css' %}" />
+</head>
+<body>
+
+    <!-- Custom cursor (desktop only) -->
+    <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+    <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+    <!-- Scroll progress indicator -->
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+    <!-- Grain texture overlay -->
+    <div class="grain" aria-hidden="true"></div>
+
+    <div class="shell">
+
+        <!-- ── NAVIGATION ─────────────────────────────────────── -->
+        <header class="nav-wrap" id="navbar" role="banner">
+            <a class="brand" href="#hero" aria-label="Back to top">
+                <span class="brand-glyph" aria-hidden="true">MS</span>
+                <span class="brand-name">Mohamed Saaoudi</span>
+            </a>
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="#about">About</a>
+                <a href="#trajectory">Trajectory</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <a class="nav-cta" href="{{ profile.cv_url }}" target="_blank" rel="noreferrer">CV ↗</a>
+        </header>
+
+        <main>
+
+            <!-- ── HERO ───────────────────────────────────────── -->
+            <section id="hero" class="hero" aria-label="Introduction">
+
+                <div class="hero-top">
+                    <div class="hero-meta">
+                        <span class="mono">Portfolio · Data Science · Engineering · AI</span>
+                        <span class="mono hero-year">Marseille, France — 2025</span>
+                    </div>
+                </div>
+
+                <div class="hero-title-block">
+                    <h1 class="hero-h1">
+                        <span class="h1-line">Built with</span>
+                        <span class="h1-line h1-italic"><em>rigor.</em></span>
+                    </h1>
+                    <p class="hero-subline">Driven by ambition. Designed to scale.</p>
+                </div>
+
+                <div class="hero-lower">
+                    <!-- Summary + CTAs -->
+                    <div class="hero-summary-block">
+                        <p class="hero-p">{{ profile.summary }}</p>
+
+                        <div class="hero-ctas">
+                            <a class="btn-main" href="#projects">Explore projects</a>
+                            <a class="btn-outline" href="{{ profile.cv_url }}" target="_blank" rel="noreferrer">{{ profile.cv_label }}</a>
+                        </div>
+
+                        <div class="hero-socials">
+                            <a href="{{ profile.github }}" target="_blank" rel="noreferrer" class="social-link">GitHub ↗</a>
+                            <a href="{{ profile.linkedin }}" target="_blank" rel="noreferrer" class="social-link">LinkedIn ↗</a>
+                            <a href="{{ profile.leetcode }}" target="_blank" rel="noreferrer" class="social-link">LeetCode ↗</a>
+                        </div>
+                    </div>
+
+                    <!-- Positioning panel -->
+                    <aside class="hero-panel" aria-label="Profile positioning">
+                        <div class="panel-inner">
+                            <span class="panel-label">Positioning</span>
+                            <p class="panel-statement">A serious technical profile combining analytical depth, clean execution, and long-term engineering ambition.</p>
+                            <div class="facts-grid">
+                                {% for fact in quick_facts %}
+                                <div class="fact">
+                                    <span class="fact-k">{{ fact.label }}</span>
+                                    <span class="fact-v">{{ fact.value }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </section>
+
+            <!-- ── PILLARS / MANIFESTO ────────────────────────── -->
+            <div class="pillars-band" aria-label="Core values">
+                {% for item in signature_points %}
+                <div class="pillar reveal">
+                    <span class="pillar-num">{{ item.index }}</span>
+                    <h2 class="pillar-title">{{ item.title }}</h2>
+                    <p class="pillar-text">{{ item.text }}</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- ── ABOUT ──────────────────────────────────────── -->
+            <section id="about" class="section reveal" aria-labelledby="about-heading">
+                <div class="section-label" aria-hidden="true">
+                    <span class="section-tag">About</span>
+                    <div class="section-rule"></div>
+                </div>
+                <div class="section-body">
+                    <h2 class="section-h2" id="about-heading">
+                        Not a generic student portfolio.<br>
+                        <em>A deliberate technical identity.</em>
+                    </h2>
+                    <div class="about-content">
+                        {% for point in about_points %}
+                        <p>{{ point }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── TRAJECTORY ─────────────────────────────────── -->
+            <section id="trajectory" class="section reveal" aria-labelledby="traj-heading">
+                <div class="section-label" aria-hidden="true">
+                    <span class="section-tag">Trajectory</span>
+                    <div class="section-rule"></div>
+                </div>
+                <div class="section-body">
+                    <h2 class="section-h2" id="traj-heading">
+                        A structured progression,<br>
+                        <em>not a list of milestones.</em>
+                    </h2>
+                    <div class="timeline">
+                        {% for item in education %}
+                        <div class="t-item reveal">
+                            <div class="t-year">{{ item.period }}</div>
+                            <div class="t-content card">
+                                <h3 class="t-title">{{ item.title }}</h3>
+                                <p class="t-inst">{{ item.institution }}</p>
+                                <p class="t-detail">{{ item.details }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── CAPABILITIES / SKILLS ─────────────────────── -->
+            <section class="section reveal" aria-labelledby="skills-heading">
+                <div class="section-label" aria-hidden="true">
+                    <span class="section-tag">Capabilities</span>
+                    <div class="section-rule"></div>
+                </div>
+                <div class="section-body">
+                    <h2 class="section-h2" id="skills-heading">
+                        Organized to show range,<br>
+                        <em>depth, and technical maturity.</em>
+                    </h2>
+                    <div class="skills-grid">
+                        {% for group in skill_groups %}
+                        <div class="skill-group card reveal">
+                            <span class="skill-cat">{{ group.title }}</span>
+                            <div class="tags">
+                                {% for item in group.items %}
+                                <span class="tag">{{ item }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── PROJECTS ───────────────────────────────────── -->
+            <section id="projects" class="section reveal" aria-labelledby="projects-heading">
+                <div class="section-label" aria-hidden="true">
+                    <span class="section-tag">Projects</span>
+                    <div class="section-rule"></div>
+                </div>
+                <div class="section-body">
+                    <h2 class="section-h2" id="projects-heading">
+                        Selected work presented<br>
+                        <em>as engineering cases.</em>
+                    </h2>
+                    <div>
+                        <p class="section-sub">Each project is framed to show method, context, role, and the deeper signal it sends about the profile.</p>
+                        <div class="projects-list">
+                            {% for project in projects %}
+                            <article class="project-card card reveal" aria-label="{{ project.name }}">
+                                <div class="proj-num">Case {{ forloop.counter|stringformat:"02d" }}</div>
+                                <div class="proj-header">
+                                    <h3 class="proj-name">{{ project.name }}</h3>
+                                    {% if project.github %}
+                                    <a class="proj-link" href="{{ project.github }}" target="_blank" rel="noreferrer">GitHub ↗</a>
+                                    {% endif %}
+                                </div>
+
+                                <p class="proj-context">{{ project.context }}</p>
+
+                                <div class="proj-grid">
+                                    <div class="proj-cell">
+                                        <span class="cell-label">Objective</span>
+                                        <p>{{ project.objective }}</p>
+                                    </div>
+                                    <div class="proj-cell">
+                                        <span class="cell-label">Methodology</span>
+                                        <p>{{ project.method }}</p>
+                                    </div>
+                                    <div class="proj-cell">
+                                        <span class="cell-label">Role</span>
+                                        <p>{{ project.role }}</p>
+                                    </div>
+                                    <div class="proj-cell">
+                                        <span class="cell-label">Outcome</span>
+                                        <p>{{ project.impact }}</p>
+                                    </div>
+                                    <div class="proj-cell proj-cell-full">
+                                        <span class="cell-label">What it reveals</span>
+                                        <p>{{ project.signal }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="tags">
+                                    {% for item in project.stack %}
+                                    <span class="tag tag-mono">{{ item }}</span>
+                                    {% endfor %}
+                                </div>
+                            </article>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── EXPERIENCE ─────────────────────────────────── -->
+            <section id="experience" class="section reveal" aria-labelledby="exp-heading">
+                <div class="section-label" aria-hidden="true">
+                    <span class="section-tag">Experience</span>
+                    <div class="section-rule"></div>
+                </div>
+                <div class="section-body">
+                    <h2 class="section-h2" id="exp-heading">
+                        Reliability, operational seriousness,<br>
+                        <em>and execution under real constraints.</em>
+                    </h2>
+                    <div class="exp-list">
+                        {% for exp in experiences %}
+                        <article class="exp-card card reveal" aria-label="{{ exp.title }}">
+                            <div class="exp-period">{{ exp.period }}</div>
+                            <div class="exp-body">
+                                <h3 class="exp-title">{{ exp.title }}</h3>
+                                <p class="exp-org">{{ exp.org }}</p>
+                                <ul class="exp-points">
+                                    {% for point in exp.points %}
+                                    <li>{{ point }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── SIGNALS / CERTIFICATIONS + VISION ─────────── -->
+            <section class="section reveal" aria-labelledby="signals-heading">
+                <div class="section-label" aria-hidden="true">
+                    <span class="section-tag">Signals</span>
+                    <div class="section-rule"></div>
+                </div>
+                <div class="section-body">
+                    <h2 class="section-h2" id="signals-heading">
+                        Additional elements that<br>
+                        <em>reinforce credibility and direction.</em>
+                    </h2>
+                    <div class="signals-grid">
+                        <div class="card signals-card reveal">
+                            <span class="signals-header">Certifications</span>
+                            <ul class="signals-list">
+                                {% for cert in certifications %}
+                                <li>{{ cert }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="card signals-card reveal delay-1">
+                            <span class="signals-header">Interests &amp; Vision</span>
+                            <ul class="signals-list">
+                                {% for item in vision %}
+                                <li>{{ item }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── CONTACT ────────────────────────────────────── -->
+            <section id="contact" class="contact-section reveal" aria-labelledby="contact-heading">
+                <span class="contact-eyebrow">Contact</span>
+                <h2 class="contact-h2" id="contact-heading">
+                    Open to serious academic<br>and professional opportunities.
+                </h2>
+                <p class="contact-sub">If you are looking for a rigorous, fast-learning, technically grounded profile with clear growth potential, feel free to reach out.</p>
+
+                <div class="contact-links">
+                    <a href="mailto:{{ profile.email }}" class="contact-link">
+                        <span>email</span>
+                        {{ profile.email }}
+                    </a>
+                    <a href="tel:{{ profile.phone|cut:' ' }}" class="contact-link">
+                        <span>phone</span>
+                        {{ profile.phone }}
+                    </a>
+                    <a href="{{ profile.github }}" target="_blank" rel="noreferrer" class="contact-link">
+                        <span>github</span>
+                        saaoudxteer
+                    </a>
+                    <a href="{{ profile.linkedin }}" target="_blank" rel="noreferrer" class="contact-link">
+                        <span>linkedin</span>
+                        Mohamed Saaoudi
+                    </a>
+                    <a href="{{ profile.leetcode }}" target="_blank" rel="noreferrer" class="contact-link">
+                        <span>leetcode</span>
+                        Mrsaaoudi
+                    </a>
+                    <a href="{{ profile.cv_url }}" target="_blank" rel="noreferrer" class="contact-link contact-link-cv">
+                        <span>cv / résumé</span>
+                        Download PDF ↗
+                    </a>
+                </div>
+            </section>
+
+            <!-- ── FOOTER ─────────────────────────────────────── -->
+            <footer class="footer" role="contentinfo">
+                <span>Designed with intent · {{ profile.name }}</span>
+                <span>Marseille, France · {{ profile.headline }}</span>
+            </footer>
+
+        </main>
+    </div>
+
+    <script src="{% static 'showcase/js/main.js' %}"></script>
+</body>
+</html>
